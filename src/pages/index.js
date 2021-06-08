@@ -1,9 +1,9 @@
-import { CustomCoffee } from "../components/CustomCoffee"
+import { OrderCoffee } from "../components/OrderCoffee"
 
 export default function Home() {
   return (
     <>
-      <CustomCoffee />
+      <OrderCoffee/>
     </>
   )
 }
