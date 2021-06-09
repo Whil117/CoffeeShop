@@ -1,6 +1,7 @@
 import { css } from '@emotion/react'
 import styled from '@emotion/styled'
 
+
 export const Card = styled.label`
       flex: 0 0 283px;
       padding: 10px;
@@ -16,22 +17,14 @@ export const Card = styled.label`
       align-items: center;
       justify-content: center;
       color: black;
-      ${({ active }) => active && css`
-        color: white;
-        background-color: #128756;
-
-      ` }
-      ${({ desactive }) => desactive && css`
-         color: black;
-         background: #FFFFFF;
-      `}
+      ${({ active }) => active && css`color: white; background-color: #128756;` }
       input{
-          display: none;
+            display: none;
       }
 `
 export const CardMain = styled.div`
       background-color: #F2F2F2;
-scroll-behavior: smooth;
+      scroll-behavior: smooth;
       display: flex;
       font-family: 'Quicksand', sans-serif;
 `
@@ -47,10 +40,11 @@ export const Cards = styled.div`
             padding: 10px;
             border: none;
             color: white;
-            font-size: 24px;
+            font-size: 18px;
       }
 `
 export const CardsSections = styled.div`
+      top: 415px;
       display: flex;
       justify-content: center;
       flex-direction: column;
@@ -66,6 +60,9 @@ export const CardsChild = styled.div`
       flex-wrap: wrap;
       align-items:center;
       justify-content: center;
+      input{
+            display: none;
+      }
 `
 export const CardSlide = styled.div`
      width: 280px;
@@ -103,4 +100,7 @@ export const CardOverflow = styled.div`
       display:flex;
       width: ${({ activeFlow }) => activeFlow === 'true' ? '950px' : 'auto'};
       overflow-x: ${({ activeWidth }) => activeWidth === 'true' ? 'auto' : 'none'};
+      input{
+            display: none;
+      }
 `

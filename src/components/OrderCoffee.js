@@ -1,18 +1,13 @@
 import React, { useState } from 'react'
+import { CardInfo, CardOrder } from '../styles/CardStyled'
 import { Card, CardMain, CardOverflow, Cards, CardsChild, CardSlide, CardSlideAnclaMain, CardsSections } from '../styles/OrderCoffeeStyled'
-import { OrderCard } from './OrderCard'
-import { useRouter } from 'next/router'
-import { OrderSections } from './OrderSections'
 
 export const OrderCoffee = () => {
-    const router = useRouter()
-    const [coffee, setCustomCoffee] = useState({})
-    const [validation, setValidation] = useState(false)
 
-    const handleSendCoffee = () => {
-        const isObjectEmpty = Object.keys(coffee).length === 0 ? setValidation(true) : (setValidation(false), localStorage.setItem('order', JSON.stringify(coffee)))
-        return isObjectEmpty
-    }
+    const [coffee, setCustomCoffee] = useState({})
+    const [listCoffee, setListCoffee] = useState({})
+    const [validation, setValidation] = useState(0)
+
     const CardCategories = {
         CardDrinkCoffe: ['Coffee_Latte', 'Coffee_Large', 'Coffee_capuccino', 'Coffee_Espresso', 'Coffee_American',],
         CardTypeCoffee: ['origin', 'decaf', 'blended'],
@@ -21,12 +16,22 @@ export const OrderCoffee = () => {
         CardDelivere: ['Every_week', 'Every_2_week', 'Every_month'],
         CardAnclaArray: ['01-Preferences', '02-Bean_Type', '03-Quantity', '04-Grid_Option', '05-Deliveries',],
     };
+    const handleDisplayCoffee = () => {
+        setValidation(3)
+        setTimeout(() => {
+            const isValidListCoffe = (coffee.coffee && coffee.type && coffee.would && coffee.grind && coffee.delivery) ?
+                (setListCoffee(coffee), setValidation(2)) : setValidation(1)
+            return isValidListCoffe
+        }, 1000);
+
+    }
     const handleCheck = (event) => {
         setCustomCoffee({
             ...coffee,
-            [event.target.name]: !coffee[event.target.name]
+            [event.target.name]: event.target.value
         })
     }
+    console.log(coffee)
     return (
         <CardMain>
             <CardSlide>
@@ -42,32 +47,103 @@ export const OrderCoffee = () => {
                 </div>
             </CardSlide>
             <Cards>
-                <OrderSections width="true" overflow="true" id={CardCategories.CardAnclaArray[0]} title="¿Which do you drink coffee?" handleCheck={handleCheck}
-                    coffee={coffee} CardCategories={CardCategories.CardDrinkCoffe}
-                />
-                <OrderSections id={CardCategories.CardAnclaArray[1]} title="¿What type of Coffee?" handleCheck={handleCheck}
-                    coffee={coffee} CardCategories={CardCategories.CardTypeCoffee}
-                />
-                <OrderSections id={CardCategories.CardAnclaArray[2]} title="¿How much would you  like?" handleCheck={handleCheck}
-                    coffee={coffee} CardCategories={CardCategories.CardWouldYouLike}
-                />
-                <OrderSections id={CardCategories.CardAnclaArray[3]} title="¿Want us to grind them?" handleCheck={handleCheck}
-                    coffee={coffee} CardCategories={CardCategories.CardGrindThem}
-                />
-                <OrderSections id={CardCategories.CardAnclaArray[4]} title="¿How often should we deliver?" handleCheck={handleCheck}
-                    coffee={coffee} CardCategories={CardCategories.CardDelivere}
-                />
-                <button onClick={handleSendCoffee}>
-                    Send
-                    <svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M26.7242 2.97297C26.5897 2.84704 26.4198 2.75986 26.2345 2.72166C26.0492 2.68347 25.8561 2.69585 25.678 2.75736L3.75835 10.257C3.56931 10.3244 3.40656 10.4444 3.29171 10.601C3.17687 10.7575 3.11536 10.9433 3.11536 11.1335C3.11536 11.3237 3.17687 11.5094 3.29171 11.666C3.40656 11.8226 3.56931 11.9425 3.75835 12.01L13.3233 15.6098L17.1493 24.6094C17.2212 24.7794 17.3444 24.9259 17.5037 25.0309C17.6631 25.1358 17.8516 25.1946 18.046 25.2C18.2473 25.1961 18.4427 25.1349 18.6063 25.0244C18.77 24.914 18.8942 24.7594 18.9626 24.5812L26.9334 3.95729C27.0013 3.79144 27.0177 3.61084 26.9806 3.43656C26.9436 3.26228 26.8546 3.1015 26.7242 2.97297ZM18.046 21.6376L15.2662 15.0755L20.0387 10.5851L18.6338 9.26327L13.8215 13.7912L6.88689 11.1382L24.3529 5.2041L18.046 21.6376Z" fill="white" />
+                <CardsSections >
+                    <h2>¿Which do you drink coffee?</h2>
+                    <CardOverflow activeFlow="true" activeWidth="true" id={CardCategories.CardAnclaArray[0]} >
+                        {CardCategories.CardDrinkCoffe.map(item => (
+                            <div>
+                                <Card key={`Key${item}`} htmlFor={`Card${item}`} id={CardCategories.CardAnclaArray[0]} active={coffee.coffee === item}>
+                                    <h4>{item}</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, </p>
+                                </Card>
+                                <input id={`Card${item}`} value={item} checked={coffee.coffee === item} type="radio" onChange={handleCheck} name="coffee" />
+                            </div>
+                        ))}
+                    </CardOverflow>
+                </CardsSections>
+                <CardsSections >
+                    <h2>¿What type of Coffee?</h2>
+                    <CardsChild >
+                        {CardCategories.CardTypeCoffee.map(item => (
+                            <div>
+                                <Card key={`Key${item}`} htmlFor={`Card${item}`} id={CardCategories.CardAnclaArray[1]} active={coffee.type === item} >
+                                    <h4>{item}</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, </p>
+                                </Card>
+                                <input id={`Card${item}`} value={item} type="radio" checked={coffee.type === item} onChange={handleCheck} name="type" />
+                            </div>
+                        ))}
+                    </CardsChild>
+                </CardsSections>
+                <CardsSections >
+                    <h2>¿How much would you  like?</h2>
+                    <CardsChild >
+                        {CardCategories.CardWouldYouLike.map(item => (
+                            <div>
+                                <Card key={`Key${item}`} htmlFor={`Card${item}`} id={CardCategories.CardAnclaArray[2]} active={coffee.would === item} >
+                                    <h4>{item}</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, </p>
+                                </Card>
+                                <input id={`Card${item}`} value={item} type="radio" checked={coffee.would === item} onChange={handleCheck} name="would" />
+                            </div>
+                        ))}
+                    </CardsChild>
+                </CardsSections>
+                <CardsSections >
+                    <h2>¿Want us to grind them?</h2>
+                    <CardsChild>
+                        {CardCategories.CardGrindThem.map(item => (
+                            <div>
+                                <Card key={`Key${item}`} htmlFor={`Card${item}`} id={CardCategories.CardAnclaArray[3]} active={coffee.grind === item} >
+                                    <h4>{item}</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, </p>
+                                </Card>
+                                <input id={`Card${item}`} value={item} checked={coffee.grind === item} type="radio" onChange={handleCheck} name="grind" />
+                            </div>
+                        ))}
+                    </CardsChild>
+                </CardsSections>
+                <CardsSections >
+                    <h2>¿How often should we deliver?</h2>
+                    <CardsChild>
+                        {CardCategories.CardDelivere.map(item => (
+                            <div>
+                                <Card key={`Key${item}`} htmlFor={`Card${item}`} id={CardCategories.CardAnclaArray[4]} active={coffee.delivery === item} >
+                                    <h4>{item}</h4>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Amet, </p>
+                                </Card>
+                                    <input id={`Card${item}`} value={item} checked={coffee.delivery === item} type="radio" onChange={handleCheck} name="delivery" />
+                            </div>
+                        ))}
+                    </CardsChild>
+                </CardsSections>
+                <button onClick={handleDisplayCoffee}>Create Coffee</button>
+                {validation === 1 &&
+                    <p>Finish the form please</p>
+                }{validation === 3 &&
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" styles="margin: auto; background: rgb(241, 242, 243); display: block; shape-rendering:" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" >
+                        <circle cx="50" cy="50" r="32" strokeWidth="8" stroke="#128756" strokeDasharray="50.26548245743669 50.26548245743669" fill="none" strokeLinecap="round">
+                            <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 50;360 50 50"></animateTransform>
+                        </circle>
+                        <circle cx="50" cy="50" r="23" strokeWidth="8" stroke="#a3711a" strokeDasharray="36.12831551628262 36.12831551628262" strokeDashoffset="36.12831551628262" fill="none" strokeLinecap="round">
+                            <animateTransform attributeName="transform" type="rotate" dur="1s" repeatCount="indefinite" keyTimes="0;1" values="0 50 50;-360 50 50"></animateTransform>
+                        </circle>
                     </svg>
-                </button>
-                <button type="button" onClick={() => router.push('/Order')}>
-                    Click me
-                </button>
-                {validation &&
-                    <p>Hey debes llenar el formulario</p>
+                }
+                {validation === 2 &&
+                    <CardOrder>
+                        <div>
+
+                            <img src={`images/${listCoffee.coffee}.png`} alt="" />
+                        </div>
+                        <CardInfo>
+                            <h3>{listCoffee?.coffee}</h3>
+                            <p><b>Type: </b>{listCoffee?.type}</p>
+                            <p><b>With: </b>{listCoffee?.would}</p>
+                            <p><b>Grind: </b>{listCoffee?.grind}</p>
+                            <p><b>Week: </b>{listCoffee?.delivery}</p>
+                        </CardInfo>
+                    </CardOrder>
                 }
             </Cards>
         </CardMain>
