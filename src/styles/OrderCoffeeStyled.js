@@ -17,7 +17,7 @@ export const Card = styled.label`
       align-items: center;
       justify-content: center;
       color: black;
-      ${({ active }) => active && css`color: white; background-color: #128756;` }
+      ${({ active }) => active && css`color: white; background-color: #0e8684;`}
       input{
             display: none;
       }
@@ -30,17 +30,24 @@ export const CardMain = styled.div`
 `
 export const Cards = styled.div`
       font-family: 'Quicksand', sans-serif;
+      padding-left: 30px;
 
       button{
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #128756;
+            background: #0e8684;
             border-radius: 10px;
             padding: 10px;
             border: none;
             color: white;
             font-size: 18px;
+      }
+      button:active{
+            background: #146264;
+      }
+      h3{
+            color:#0e8684;
       }
 `
 export const CardsSections = styled.div`
@@ -51,7 +58,6 @@ export const CardsSections = styled.div`
       flex-wrap: wrap;
       margin-top: 15px;
       margin-bottom: 15px;
-      padding-left: 30px;
       padding-right: 30px;
 
 `
@@ -76,25 +82,31 @@ export const CardSlide = styled.div`
          position:sticky;
      }
      h3{
-         color:#128756;
+         color:#0e8684;
          font-size: 24px;
+     }
+     @media (max-width:354px){
+           display: none;
      }
 `
 export const CardSlideAnclaMain = styled.div`
        display: flex;
        flex-direction: column;
        a{
-           border-radius: 10px;
+            border-radius: 10px;
         color: black;
         text-decoration: none;
         font-size: 20px;
         padding: 10px;
        }
        a:active{
-        color: white;
-        background-color: #128756;
-       }
+             color: white;
+            background-color: #0e8684;
+        }
 
+`
+export const CardLabelLink = styled.label`
+             ${({ active }) => active && css`color: white; background-color: #0e8684;`}
 `
 export const CardOverflow = styled.div`
       display:flex;
@@ -103,4 +115,26 @@ export const CardOverflow = styled.div`
       input{
             display: none;
       }
+      @media (max-width:354px){
+            display: flex;
+            flex-wrap: wrap;
+            overflow-x: none;
+            justify-content: center;
+            width: none;
+      }
 `
+export const CardLink = styled.label`
+         border-radius: 10px;
+        color: black;
+        text-decoration: none;
+        font-size: 20px;
+        padding: 10px;
+        ${({ active }) => active && css`
+                        color: white; background-color: #0e8684;
+        `}
+
+`
+
+export const MyOrder = styled.div`
+       margin-top: 150px;
+` 
