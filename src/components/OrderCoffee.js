@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { CardInfo, CardOrder } from '../styles/CardStyled'
-import { Card,  CardMain, CardOverflow, Cards, CardsChild, CardSlide, CardSlideAnclaMain, CardsSections, MyOrder } from '../styles/OrderCoffeeStyled'
+import { Card, CardMain, CardOverflow, Cards, CardsChild, CardSlide, CardSlideAnclaMain, CardsSections, MyOrder } from '../styles/OrderCoffeeStyled'
 
 export const OrderCoffee = () => {
 
     const [coffee, setCustomCoffee] = useState({})
-    const [listCoffee, setListCoffee] = useState({})
+    const [listCoffee, setListCoffee] = useState([])
     const [validation, setValidation] = useState(0)
 
     const CardCategories = {
@@ -20,7 +20,10 @@ export const OrderCoffee = () => {
         setValidation(3)
         setTimeout(() => {
             const isValidListCoffe = (coffee.coffee && coffee.type && coffee.would && coffee.grind && coffee.delivery) ?
-                (setListCoffee(coffee), setValidation(2)) : setValidation(1)
+                (setListCoffee([
+                    coffee,
+                    ...listCoffee,
+                ]), setValidation(2)) : setValidation(1)
             return isValidListCoffe
         }, 1000);
 
@@ -28,10 +31,17 @@ export const OrderCoffee = () => {
     const handleCheck = (event) => {
         setCustomCoffee({
             ...coffee,
+            id: `Card${listCoffee.length + 1}`,
             [event.target.name]: event.target.value
         })
     }
-
+    
+    const handleDeleteCard = (id) =>{
+        const DeleteCard = document.getElementById(id)
+        DeleteCard.style.display = "none"
+    }
+    console.log(coffee)
+    console.log(listCoffee)
     return (
         <CardMain>
             <CardSlide>
@@ -118,7 +128,7 @@ export const OrderCoffee = () => {
                     </CardsChild>
                 </CardsSections>
                 <button onClick={handleDisplayCoffee}>Create Coffee</button>
-                {validation === 1 &&<p>Finish the form please</p>}
+                {validation === 1 && <p>Finish the form please</p>}
                 {validation === 3 &&
                     <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" styles="margin: auto; background: rgb(241, 242, 243); display: block; shape-rendering:" width="100px" height="100px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid" >
                         <circle cx="50" cy="50" r="32" strokeWidth="8" stroke="#0e8684" strokeDasharray="50.26548245743669 50.26548245743669" fill="none" strokeLinecap="round">
@@ -131,21 +141,22 @@ export const OrderCoffee = () => {
                 }
                 <MyOrder id={CardCategories.CardAnclaArray[5]}>
                     <h3>Your Order</h3>
-                    {validation === 2 &&
-                        <CardOrder>
-                            <div>
+                    {listCoffee.map(item => (
+                            <CardOrder id={item.id} key={item.id}>
+                                <div>
 
-                                <img src={`images/${listCoffee.coffee}.png`} alt={listCoffee.coffee} />
-                            </div>
-                            <CardInfo>
-                                <h3>{listCoffee?.coffee}</h3>
-                                <p><b>Type: </b>{listCoffee?.type}</p>
-                                <p><b>With: </b>{listCoffee?.would}</p>
-                                <p><b>Grind: </b>{listCoffee?.grind}</p>
-                                <p><b>Week: </b>{listCoffee?.delivery}</p>
-                            </CardInfo>
-                        </CardOrder>
-                    }
+                                    <img src={`images/${item.coffee}.png`} alt={item.coffee} />
+                                </div>
+                                <CardInfo>
+                                    <h3>{item?.coffee}</h3>
+                                    <p><b>Type: </b>{item?.type}</p>
+                                    <p><b>With: </b>{item?.would}</p>
+                                    <p><b>Grind: </b>{item?.grind}</p>
+                                    <p><b>Week: </b>{item?.delivery}</p>
+                                </CardInfo>
+                                <button onClick={()=>handleDeleteCard(item.id)}>X</button>
+                            </CardOrder>
+                        ))}
                 </MyOrder>
             </Cards>
         </CardMain>
