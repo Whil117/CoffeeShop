@@ -136,7 +136,7 @@ export const OrderCoffee = () => {
                 <MyOrder id={CardCategories.CardAnclaArray[5]}>
                     <h3>Your Order</h3>
                     {listCoffee.map(item => (
-                        <CardOrder id={item.id} key={item.id}>
+                        <CardOrder id={`CardId${item.id}`} key={`CardId${item.id}`}>
                             <div>
                                 <img src={`images/${item.coffee}.png`} alt={item.coffee} />
                             </div>
